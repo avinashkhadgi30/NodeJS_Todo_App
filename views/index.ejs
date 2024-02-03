@@ -1,0 +1,49 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Node.js Todo App</title>
+</head>
+<body>
+  <h1>Todo List</h1>
+  <ul>
+    <% todos.forEach((todo, index) => { %>
+      <li>
+        <%= todo %>
+        <a href="/view/<%= index %>">View</a>
+        <a href="#" onclick="showEditForm(<%= index %>)">Edit</a>
+        <form id="deleteForm<%= index %>" action="/delete/<%= index %>" method="post" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
+    <% }); %>
+  </ul>
+
+  <!-- Add hidden edit forms for each todo -->
+  <% todos.forEach((todo, index) => { %>
+    <form id="editForm<%= index %>" action="/edit/<%= index %>" method="post" style="display:none;">
+      <input type="text" name="updatedTodo" placeholder="Updated Todo" required>
+      <button type="submit">Update</button>
+    </form>
+  <% }); %>
+
+  <form action="/add" method="post">
+    <input type="text" name="newTodo" placeholder="New Todo" required>
+    <button type="submit">Add</button>
+  </form>
+
+  <script>
+    function showEditForm(index) {
+      // Hide all edit forms
+      <% todos.forEach((todo, i) => { %>
+        document.getElementById('editForm<%= i %>').style.display = 'none';
+      <% }); %>
+
+      // Show the selected edit form
+      document.getElementById('editForm' + index).style.display = 'block';
+    }
+  </script>
+</body>
+</html>
